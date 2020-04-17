@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block head %}	<script type="text/javascript" src="/static/js/pay.js"></script>{% endblock %}
+{% block body %}
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+        {% csrf_token %}
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="/user/userinfo/" >· 个人信息</a></li>
+				<li><a href="/order/pay/1/" {% if title == "用户中心订单页面" %} class="active" {% endif %}>· 全部订单</a></li>
+				<li><a href="/user/addr/">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">全部订单</h3>
+				
+{% for o in page %}
+    <ul class="order_list_th w978 clearfix">
+					<li class="col01">{{o.odata  }}</li>
+					<li class="col02">订单号：{{ o.oid }}</li>
+					<li class="col02 stress">{% if o.oIspay == 0 %}
+                                未支付
+                        {% else %}
+                        已支付
+					{% endif %}</li>
+				</ul>
+				<table class="order_list_table w980">
+					<tbody>
+						<tr>
+							<td width="55%">
+    {% for order in o.goods %}
+                                    <ul class="order_goods_list clearfix">
+									<li class="col01"><img src="/static/{{ order.goods.goods_image }}"></li>
+									<li class="col02">{{ order.goods.goods_name }}<em>{{ order.goods.goods_price }}元/{{ order.goods.goods_unit }}</em></li>
+									<li class="col03">{{ order.count }}</li>
+									<li class="col04">{{ order.amount }}元</li>
+								</ul>
+    {% endfor %}
+    
+
+							</td>
+							<td width="15%">{{ o.ototal}}元</td>
+							<td width="15%"><a href="javascript:pay();" order_id="{{ o.oid }}" status="{{ o.oIspay }}" id="pay" class="oper_btn">{% if o.oIspay == 0 %}去付款{% else %}已支付{% endif %}</a></td>
+{#							<td width="15%"><a href="#" order_id="{{ o.oid }}" status="{{ o.oIspay }}" id="pay" class="oper_btn">{% if o.oIspay == 0 %}去付款{% else %}已支付{% endif %}</a></td>#}
+                            <td width="15%"><a href="#" class="oper_btn">查看物流</a></td>
+                            </tr>
+					</tbody>
+				</table>
+
+{% endfor %}
+
+				
+
+                <div class="pagenation">
+                {% if page.has_previous %}
+                    <a href="/order/pay/{{ page.previous_page_number }}/">上一页</a>
+                {% endif %}
+
+                {% for pindex in paginator.page_range %}
+                    {% if pindex == page.number %}
+                        <a href="/order/pay/{{ pindex }}/" class="active">{{ pindex }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% if page.has_next %}
+                <a href="/order/pay/{{ page.next_page_number }}/">下一页</a>
+            {% endif %}
+
+			</div>
+
+
+		</div>
+	</div>
+{% endblock %}
+

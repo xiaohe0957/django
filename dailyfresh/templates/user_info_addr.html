@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="/user/userinfo/" >· 个人信息</a></li>
+				<li><a href="/order/pay/1/">· 全部订单</a></li>
+				<li><a href="/user/addr/" {% if title == "用户中心信息更新" %} class="active" {% endif %}>· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						<dd>{{ user.address }} （{{ user.username }} 收） {{ user.phone }}</dd>
+					</dl>
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					<form method="post" action="/user/addr/">
+                        {% csrf_token %}
+
+                        <div class="form_group">
+                            {{ attr_form.username.label_tag }}
+                            {{ attr_form.username }}
+                        </div>
+                        <div class="form_group">
+                            {{ attr_form.attrname.label_tag }}
+                            {{ attr_form.attrname }}
+                        </div>
+
+
+						<div class="form_group">
+                            {{ attr_form.attrphone.label_tag }}
+                            {{ attr_form.attrphone }}
+                        </div>
+
+
+						<input type="submit" name="" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block head %}	<script type="text/javascript" src="/static/js/count.js"></script>{% endblock %}
+
+{% block body %}
+	<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="/list/1/1/1/" class="fruit">新鲜水果</a></li>
+					<li><a href="/list/2/1/1/" class="seafood">海鲜水产</a></li>
+					<li><a href="/list/3/1/1/" class="meet">猪牛羊肉</a></li>
+					<li><a href="/list/4/1/1/" class="egg">禽类蛋品</a></li>
+					<li><a href="/list/5/1/1/" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/list/6/1/1/" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="/index/">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="/list/1/1/1/">全部分类</a>
+		<span>></span>
+		<a href="/list/{{s}}/1/1/">{{ goods.goods_type }}</a>
+		<span>></span>
+		<a href="#">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="/static/{{ goods.goods_image }}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{ goods.goods_name }}</h3>
+			<p>{{ goods.goods_introduce }}</p>
+			<div class="prize_bar">
+				<span class="show_pirze" >¥<em id="gprice">{{ goods.goods_price }}</em></span>
+				<span class="show_unit">单  位：{{ goods.goods_unit }}</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" value="1">
+					<a href="javascript:add();" class="add fr">+</a>
+					<a href="javascript:minus();" class="minus fr">-</a>
+				</div>
+			</div>
+			<div class="total" >总价：<em id="gtotal">{{ goods.goods_price }}元</em></div>
+			<div class="operate_btn">
+				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+				{% for g in new %}
+					<li>
+						<a href="#"><img src="/static/{{ g.goods_image }}"></a>
+						<h4><a href="#">{{ g.goods_name }}</a></h4>
+						<div class="prize">￥{{ g.goods_price }}</div>
+					</li>
+				{% endfor %}
+
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{ goods.goods_content }}</dd>
+				</dl>
+			</div>
+
+		</div>
+
+	</div>
+    <div class="add_jump"></div>
+<div style="display: none" id="quzhi">{{ goods.id }}</div>
+{% endblock %}
+
+
+
+{#     <script type="text/javascript">#}
+{#		var $add_y = $('#add_cart').offset().left;#}
+{#        var $add_x = $('#add_cart').offset().top;#}
+{#		var $to_x = $('#show_count').offset().top;#}
+{#		var $to_y = $('#show_count').offset().left;#}
+{##}
+{#		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})#}
+{#		$('.add_cart').click(function(){#}
+{##}
+{#		    if ($('.login_btn').text().indexOf('登录')>=0){#}
+{#		        alert('请先登录后再购买');#}
+{#		        location.href = '/user/login/';#}
+{#		        return ;#}
+{#            }#}
+{#			$(".add_jump").stop().animate({#}
+{#				'left': $to_y+7,#}
+{#				'top': $to_x+7},#}
+{#				"fast", function() {#}
+{#					$(".add_jump").fadeOut('fast',function(){});#}
+{#					num =parseInt($('.num_show').val());#}
+{#					nice = $('#quzhi').text()#}
+{#					$.get('/cart/add/'+nice+'/'+num+'/',function (data) {#}
+{#                        $('#show_count').text(data.count);#}
+{#                    })#}
+{##}
+{#			});#}
+{#		});#}
+{##}
+{##}
+{#	</script>#}
